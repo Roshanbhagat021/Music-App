@@ -4,7 +4,7 @@ import { MusicContext } from "../Context/MusicContext";
 import he from "he";
 const SongList = ({
   name,
-  primaryArtists,
+  artists,
   duration,
   downloadUrl,
   image,
@@ -16,6 +16,7 @@ const SongList = ({
     const sec = String(duration % 60).padStart(2, 0);
     return `${min}:${sec}`;
   };
+  const Artists = artists.primary.map((artist) => artist.name).join(",");
 
   const { isPlaying, currentSong, PlayMusic } = useContext(MusicContext);
 
@@ -24,7 +25,7 @@ const SongList = ({
       <GoPlay
         className="text-3xl cursor-pointer text-gray-500 hover:text-gray-700  transition-all ease-in-out duration-300"
         onClick={() =>
-          PlayMusic(downloadUrl, id, name, duration, image, primaryArtists)
+          PlayMusic(downloadUrl, id, name, duration, image, Artists)
         }
       />
       <div className="flex flex-col lg:flex-row   gap-1 justify-between items-start w-[90%]">
@@ -36,7 +37,7 @@ const SongList = ({
           {name.replace(/&quot;/g, '"')}
         </span>
         <span className="font-thin  w-[60%] text-gray-500 text-xs">
-          {primaryArtists}
+          {Artists}
         </span>
       </div>
       <div>

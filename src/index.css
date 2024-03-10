@@ -19,12 +19,14 @@ body {
   margin-bottom: 14px;
   background-color: #e8e8e8ff;
 }
+
 .progress_bar:hover {
   cursor: pointer;
 }
 
 .progress_bar::-webkit-slider-thumb {
   appearance: none;
+  /* -webkit-appearance: none; */
   width: 10px;
   height: 10px;
   border-radius: 50%;

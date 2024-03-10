@@ -22,11 +22,11 @@ function ContextProvider({ children }) {
         currentSong.audio.pause();
         setIsPlaying(false);
       }
-      const newAudio = new Audio(music[3].link);
+      const newAudio = new Audio(music[4].url);
       setCurrentSong({
         name,
         duration,
-        image: image[2].link,
+        image: image[2].url,
         id,
         audio: newAudio,
         primaryArtists,
@@ -76,7 +76,7 @@ function ContextProvider({ children }) {
         nextSong,
         prevSong,
         setSearchedSongs,
-        searchedSongs
+        searchedSongs,
       }}
     >
       {children}

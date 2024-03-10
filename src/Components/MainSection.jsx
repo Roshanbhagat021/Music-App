@@ -4,16 +4,29 @@ import AlbumItem from "./AlbumItem";
 import Slider from "./Slider";
 
 const MainSection = () => {
-  const [albums, setAlbums] = useState([]);
+  const [data, setData] = useState([]);
   const [trending, setTrending] = useState([]);
 
   async function getHomePageData() {
     try {
-      const res = await axios(`https://saavn.dev/modules?language=hindi`);
+      const res = await axios(
+        `https://saavn.dev/api/songs/jwvjfGwb/suggestions?limit=50`
+      );
       const { data } = res.data;
-      console.log("data: ", data);
-      setAlbums(data.albums);
-      setTrending(data.trending);
+      // console.log("data: ", data);
+      setData(data);
+      // setTrending(data.trending);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function getHomePageData2() {
+    try {
+      const res = await axios(
+        `https://saavn.dev/api/songs/XBtV-pNi/suggestions?limit=30`
+      );
+      const { data } = res.data;
+      setTrending(data);
     } catch (error) {
       console.log(error);
     }
@@ -21,12 +34,9 @@ const MainSection = () => {
 
   useEffect(() => {
     getHomePageData();
+    getHomePageData2();
   }, []);
 
-  const trendingAlbum = useMemo(
-    () => (Array.isArray(trending.albums) ? trending.albums : []),
-    [trending.albums]
-  );
 
   return (
     <>
@@ -34,11 +44,11 @@ const MainSection = () => {
         <h2 className="text-xl px-5 py-3 font-semibold text-gray-700  w-full  lg:w-[78vw] mx-auto ">
           Trending
         </h2>
-        <Slider data={trendingAlbum} />
+        <Slider data={data} />
         <h2 className="text-xl px-5 py-3 font-semibold text-gray-700  w-full  lg:w-[78vw] mx-auto ">
           New Releases
         </h2>
-        <Slider data={albums} />
+        <Slider data={trending} />
       </section>
     </>
   );

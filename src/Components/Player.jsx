@@ -99,7 +99,7 @@ const Player = () => {
         ref={sliderRef}
         step="0.1"
         onChange={handleProgressChange}
-        className="w-full h-[5px] progress_bar"
+        className="w-full h-[5px] progress_bar "
       />
 
       <div className=" flex justify-between items-center mb-3 px-2">
@@ -156,17 +156,11 @@ const Player = () => {
           />
 
           {volume === 0 ? (
-            <FaVolumeMute
-            className={` ${SpeakerIconStyling}`}
-            />
+            <FaVolumeMute className={` ${SpeakerIconStyling}`} />
           ) : volume < 0.5 ? (
-            <PiSpeakerLowFill
-            className={` ${SpeakerIconStyling}`}
-            />
+            <PiSpeakerLowFill className={` ${SpeakerIconStyling}`} />
           ) : (
-            <HiSpeakerWave
-              className={` ${SpeakerIconStyling}`}
-            />
+            <HiSpeakerWave className={` ${SpeakerIconStyling}`} />
           )}
 
           <VolumeController

@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-const AlbumItem = ({ album }) => {
+const AlbumItem = ({ song }) => {
   // console.log("album: ", album);
-  const { id, name, image, artists } = album;
+  const {
+    album: { id },
+    name,
+    image,
+    artists,
+  } = song;
 
   return (
     <>
@@ -11,7 +16,7 @@ const AlbumItem = ({ album }) => {
         className="w-[160px] max-h-[220px] overflow-y-clip flex flex-col justify-between items-center gap-3 rounded-lg"
       >
         <img
-          src={image[2].link}
+          src={image[2].url}
           alt=""
           className="rounded-lg "
           draggable="false"
@@ -21,12 +26,12 @@ const AlbumItem = ({ album }) => {
             {name.replace(/&quot;/g, '"')}
           </span>
           <p className="text-gray-500 font-thin ">
-            {artists.map((artist) => artist.name).join(",").length > 24
-              ? artists
+            {artists.primary.map((artist) => artist.name).join(",").length > 24
+              ? artists.primary
                   .map((artist) => artist.name)
                   .join(",")
                   .slice(0, 24) + "..."
-              : artists.map((artist) => artist.name).join(",")}
+              : artists.primary.map((artist) => artist.name).join(",")}
           </p>
         </div>
       </Link>

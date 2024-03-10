@@ -6,7 +6,7 @@ const SongItems = ({
   name,
   id,
   image,
-  primaryArtists,
+  artists,
   duration,
   downloadUrl,
   album,
@@ -15,17 +15,20 @@ const SongItems = ({
 
   const { PlayMusic } = useContext(MusicContext);
 
+  const Artists = artists.primary.map((artist) => artist.name).join(",");
+  console.log("Artists: ", Artists);
+
   return (
     <Link
       to={`/albums/${albumId}`}
       className="w-[160px] max-h-[220px] overflow-y-clip flex flex-col justify-between items-center gap-3 rounded-lg"
     >
       <img
-        src={image[2].link}
+        src={image[2].url}
         alt={name.replace(/&quot;/g, '"')}
         className="cursor-pointer rounded-lg"
         onClick={() =>
-          PlayMusic(downloadUrl, id, name, duration, image, primaryArtists)
+          PlayMusic(downloadUrl, id, name, duration, image, Artists)
         }
       />
       <div className="flex text-[13px] w-full flex-col justify-center items-center ">

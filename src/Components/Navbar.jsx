@@ -14,9 +14,10 @@ function Navbar() {
     }
     try {
       const res = await axios.get(
-        `https://saavn.dev/search/songs?query=${e.target.value}&page=1&limit=2`
+        `https://saavn.dev/api/search/songs?query=${e.target.value}`
       );
       const { data } = res.data;
+      console.log("data: ", data);
       if (data.results.length === 0) {
         setSearchedSongs([]);
       } else {
@@ -26,7 +27,6 @@ function Navbar() {
       console.log(error);
     }
   };
-  console.log("searchedSongs: ", searchedSongs);
 
   return (
     <nav className="flex justify-between items-center py-3 border-none lg:border px-2  fixed top-0 left-0 right-0 bg-[#F6F6F6]">

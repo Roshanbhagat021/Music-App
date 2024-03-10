@@ -20,12 +20,13 @@ function AlbumDetails() {
   const { id } = useParams();
 
   const getAlbumDetails = async () => {
-    const res = await axios.get(`https://saavn.dev/albums?id=${id}`);
+    const res = await axios.get(`https://saavn.dev/api/albums?id=${id}`);
     const { data } = await res.data;
+    console.log('data: ', data);
     setAlbum(data);
     setSongs(data.songs);
     setCopyRight(data.songs[0].copyright);
-    setImage(data.image[2].link);
+    setImage(data.image[2].url);
   };
 
   useEffect(() => {

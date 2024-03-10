@@ -2,6 +2,8 @@ import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import AlbumItem from "./AlbumItem";
 import { useRef } from "react";
 const Slider = ({ data }) => {
+  // console.log("data: ", data);
+
   const SliderRef = useRef(null);
 
   const SlideLeft = () => {
@@ -22,8 +24,8 @@ const Slider = ({ data }) => {
         className="grid grid-rows-2 w-[78vw] grid-flow-col gap-4 px-5 overflow-x-scroll scroll-hide"
         ref={SliderRef}
       >
-        {data.map((album) => (
-          <AlbumItem key={album.id} album={album} />
+        {data.map((song) => (
+          <AlbumItem key={song.id} song={song} />
         ))}
       </div>
 
