@@ -3,9 +3,10 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import axios from "axios";
 import { useContext } from "react";
 import { MusicContext } from "../Context/MusicContext";
+import savan from "/public/savan-logo.png";
 
 function Navbar() {
-  const { setSearchedSongs ,searchedSongs} = useContext(MusicContext);
+  const { setSearchedSongs, searchedSongs } = useContext(MusicContext);
 
   const searchSong = async (e) => {
     if (e.target.value.trim().length === 0) {
@@ -25,7 +26,7 @@ function Navbar() {
       console.log(error);
     }
   };
-  console.log('searchedSongs: ', searchedSongs);
+  console.log("searchedSongs: ", searchedSongs);
 
   return (
     <nav className="flex justify-between items-center py-3 border-none lg:border px-2  fixed top-0 left-0 right-0 bg-[#F6F6F6]">
@@ -33,7 +34,7 @@ function Navbar() {
       <div className=" flex flex-col  md:flex-row justify-between items-center mx-auto md:mx-0">
         <div className="flex justify-between items-center gap-2 mr-4">
           <Link to="/">
-            <img src="/public/savan-logo.png" alt="" width={37} />
+            <img src={savan} alt="" width={37} />
           </Link>
           <Link to="/" className="font-bold text-lg">
             JioSavan
