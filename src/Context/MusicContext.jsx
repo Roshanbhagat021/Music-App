@@ -5,8 +5,10 @@ export const MusicContext = createContext();
 function ContextProvider({ children }) {
   const [songs, setSongs] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isAlbumChange,setIsalbumChange]=useState(false)
   const [currentSong, setCurrentSong] = useState(null);
   const [searchedSongs, setSearchedSongs] = useState([]);
+  
 
   async function PlayMusic(music, id, name, duration, image, primaryArtists) {
     if (currentSong && currentSong.id === id) {
@@ -77,6 +79,8 @@ function ContextProvider({ children }) {
         prevSong,
         setSearchedSongs,
         searchedSongs,
+        isAlbumChange,
+        setIsalbumChange
       }}
     >
       {children}

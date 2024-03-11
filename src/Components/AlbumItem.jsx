@@ -16,7 +16,7 @@ const AlbumItem = ({ song }) => {
         className="w-[160px] max-h-[220px] overflow-y-clip flex flex-col justify-between items-center gap-3 rounded-lg"
       >
         <img
-          src={image[2].url}
+          src={image[1].url}
           alt=""
           className="rounded-lg "
           draggable="false"

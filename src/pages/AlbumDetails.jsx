@@ -10,20 +10,31 @@ import SongList from "../Components/SongList";
 import SearchSection from "../Components/SearchSection";
 
 function AlbumDetails() {
-  const { setSongs, songs, currentSong, PlayMusic, isPlaying, nextSong } =
-    useContext(MusicContext);
+  const {
+    setSongs,
+    songs,
+    currentSong,
+    PlayMusic,
+    setIsalbumChange,
+    searchedSongs,
+    isAlbumChange,
+  } = useContext(MusicContext);
   // console.log("songs: ", songs);
   const [album, setAlbum] = useState([]);
   const [image, setImage] = useState([]);
+  const [singers, setSingers] = useState([]);
   const [copyright, setCopyRight] = useState("");
 
   const { id } = useParams();
+  // console.log("id: ", id);
+  // console.log("isAlbumChange:", isAlbumChange);
 
   const getAlbumDetails = async () => {
     const res = await axios.get(`https://saavn.dev/api/albums?id=${id}`);
     const { data } = await res.data;
-    console.log('data: ', data);
+    // console.log("data: ", data);
     setAlbum(data);
+    setSingers(data.artists.primary);
     setSongs(data.songs);
     setCopyRight(data.songs[0].copyright);
     setImage(data.image[2].url);
@@ -31,7 +42,7 @@ function AlbumDetails() {
 
   useEffect(() => {
     getAlbumDetails();
-  }, []);
+  }, [isAlbumChange]);
 
   let totalsec = songs.reduce((time, curren) => {
     return Number(time) + Number(curren.duration);
@@ -64,7 +75,7 @@ function AlbumDetails() {
   return (
     <>
       <Navbar />
-      <SearchSection/>
+      {/* <SearchSection /> */}
       <div>
         <div className="flex  flex-col lg:flex-row  gap-8 items-center text-center lg:text-left w-[70vw] mt-20 mx-auto">
           <img src={image} alt="" className="rounded-md w-[250px]" />
@@ -74,8 +85,11 @@ function AlbumDetails() {
               {album.name?.replace(/&quot;/g, '"')}
             </h1>
             <p className="font-thin">
-              by {album.primaryArtists} . {album.songCount} .{" "}
-              {`${TotalPlayCount} Plays`} . {`${duration}`}
+              by {singers?.map((singer) => singer.name)} .{" "}
+              {album.songCount === 1
+                ? album.songCount + " " + "Song"
+                : album.songCount + " " + "Songs"}{" "}
+              . {`${TotalPlayCount} Plays`} . {`${duration}`}
             </p>
             <p className="my-1 font-thin">{copyright}</p>
             <div className="flex items-center mt-2 gap-3">
@@ -100,7 +114,7 @@ function AlbumDetails() {
           </div>
         </div>
 
-        <div>
+        <div className="mt-5">
           {songs?.map((song, index) => (
             <SongList key={song.id} serialNo={index + 1} {...song} />
           ))}

@@ -5,6 +5,7 @@ import Slider from "./Slider";
 
 const MainSection = () => {
   const [data, setData] = useState([]);
+  // console.log("data: ", data);
   const [trending, setTrending] = useState([]);
 
   async function getHomePageData() {
@@ -37,7 +38,6 @@ const MainSection = () => {
     getHomePageData2();
   }, []);
 
-
   return (
     <>
       <section className="my-20">
@@ -46,7 +46,7 @@ const MainSection = () => {
         </h2>
         <Slider data={data} />
         <h2 className="text-xl px-5 py-3 font-semibold text-gray-700  w-full  lg:w-[78vw] mx-auto ">
-          New Releases
+          Only For You
         </h2>
         <Slider data={trending} />
       </section>

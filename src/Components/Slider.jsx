@@ -7,16 +7,16 @@ const Slider = ({ data }) => {
   const SliderRef = useRef(null);
 
   const SlideLeft = () => {
-    SliderRef.current.scrollLeft -= 800;
+    SliderRef.current.scrollLeft -= 1000;
   };
   const SlideRight = () => {
-    SliderRef.current.scrollLeft += 800;
+    SliderRef.current.scrollLeft += 1000;
   };
 
   return (
     <div className="flex justify-center items-center gap-2">
       <MdChevronLeft
-        className="text-3xl text-gray-600 hover:scale-125 transition-all duration-500 ease-in-out cursor-pointer hidden lg:block"
+        className="text-3xl text-gray-600 hover:scale-125 transition-all duration-100 linear cursor-pointer hidden lg:block"
         onClick={SlideLeft}
       />
 

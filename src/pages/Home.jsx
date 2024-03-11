@@ -7,9 +7,10 @@ function Home() {
   return (
     <>
       <Navbar />
-      <SearchSection />
+      {/* <SearchSection /> */}
       <MainSection />
       <Player />
+      
     </>
   );
 }
