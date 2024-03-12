@@ -61,9 +61,15 @@
 
 
 ## MOBILE VIEW
-![MainPage_mob_view](./public/ReadmeImages/MobileView.jpg)
-![AlbumPage_mob_view](./public/ReadmeImages/MobileView2.jpg)
+<!-- ![MainPage_mob_view](./public/ReadmeImages/MobileView.jpg)
+![AlbumPage_mob_view](./public/ReadmeImages/MobileView2.jpg) -->
 
+<div align="center">
+  <img src="./public/ReadmeImages/MobileView.jpg" alt="AlbumPage_mob_view ">
+</div>
+<div align="center">
+  <img src="./public/ReadmeImages/MobileView2.jpg" alt="AlbumPage_mob_view ">
+</div>
 
 
 
