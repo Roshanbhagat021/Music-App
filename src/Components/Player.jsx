@@ -10,17 +10,38 @@ import { PiSpeakerLowFill } from "react-icons/pi";
 import VolumeController from "./VolumeController";
 import { useContext, useEffect, useRef, useState } from "react";
 import { MusicContext } from "../Context/MusicContext";
+import toast, { Toaster } from "react-hot-toast";
+import { toastText } from "../toastData/ToastWittyTexts";
+
 const Player = () => {
   const [isVolumeBarVisible, setIsVolumeBarVisible] = useState(false);
   const [volume, setVolume] = useState(50);
 
-  const { nextSong, prevSong, currentSong, isPlaying, PlayMusic, songs } =
-    useContext(MusicContext);
+  const {
+    isAuth,
+    nextSong,
+    prevSong,
+    currentSong,
+    isPlaying,
+    PlayMusic,
+    songs,
+  } = useContext(MusicContext);
 
   const sliderRef = useRef();
+  const textIndex = useRef(-1);
   // console.log("sliderRef: ", sliderRef.current);
 
   const handleDownload = async (url) => {
+    console.log("download");
+    if (!isAuth) {
+      textIndex.current = textIndex.current + 1;
+      return toast.custom(
+        <div className="bg-white border-2 text-xl border-black p-4  rounded-lg w-[500px] text-gray-600  font-semibold">
+          {toastText[textIndex.current % 7].text}
+        </div>
+      );
+    }
+
     try {
       const res = await fetch(url);
       const b = await res.blob();
@@ -89,6 +110,7 @@ const Player = () => {
 
   return (
     <div className="fixed  left-0 bottom-0 right-0 flex flex-col bg-[#f5f5f5ff]">
+      <Toaster />
       <input
         type="range"
         name="progress-bar"

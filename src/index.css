@@ -48,3 +48,16 @@ body {
 .suggestions_div div:nth-child(even) {
   background-color: #f5f5f5;
 }
+
+.blinkEffect {
+  animation: blinkEffect_loading 1s linear infinite alternate;
+}
+
+@keyframes blinkEffect_loading{
+  0%{
+      background-color: hsl(200, 20%,70%);
+  }
+  100%{
+      background-color: hsl(200, 20%,90%);
+  }
+}

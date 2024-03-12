@@ -2,30 +2,65 @@ import { Link } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { MusicContext } from "../Context/MusicContext";
 import savan from "/savan-logo.png";
-import { data } from "../SingersData/LoginPageData";
+import toast, { Toaster } from "react-hot-toast";
+import { toastText } from "../toastData/ToastWittyTexts";
+import { auth } from "../firebase/config.js";
+import { signOut } from "firebase/auth";
+import { SearchSongApi } from "../ApiDetails/Api.jsx";
 // console.log("data: ", data);
 
 function Navbar() {
-  const { setSearchedSongs, searchedSongs, isAlbumChange, setIsalbumChange } =
-    useContext(MusicContext);
+  const {
+    setSearchedSongs,
+    searchedSongs,
+    isAlbumChange,
+    setIsalbumChange,
+    email,
+    isAuth,
+    setIsAuth,
+  } = useContext(MusicContext);
   // console.log("searchedSongs: ", searchedSongs);
+
+  const textIndex = useRef(-1);
   const [search, setSearch] = useState("");
 
   const handleCloseSuggestion = () => {
     setSearch("");
   };
 
+  function handleLogOut() {
+    signOut(auth)
+      .then((details) => {
+        localStorage.removeItem("userData");
+        setIsAuth(false);
+        // Sign-out successful.
+        toast.success("Logout successful");
+      })
+      .catch((error) => {
+        toast(error.message);
+        // An error happened.
+      });
+  }
+
   const searchSong = async (e) => {
+    if (!isAuth) {
+      textIndex.current = textIndex.current + 1;
+      return toast.custom(
+        <div className="bg-white border-2 text-xl border-black p-4  rounded-lg w-[500px] text-gray-600  font-semibold">
+          {toastText[textIndex.current % 7].text}
+        </div>
+      );
+    }
     setSearch(e.target.value);
     if (e.target.value.trim().length === 0) {
       return;
     }
     try {
       const res = await axios.get(
-        `https://saavn.dev/api/search/songs?query=${e.target.value}`
+        `${SearchSongApi}${e.target.value}`
       );
       const { data } = res.data;
       console.log("data: ", data);
@@ -41,6 +76,7 @@ function Navbar() {
 
   return (
     <nav className="flex justify-between items-center py-3 border-none lg:border px-2  fixed top-0 left-0 right-0 bg-[#F6F6F6]">
+      <Toaster />
       {/* 1st div */}
       <div className=" flex flex-col  md:flex-row justify-between items-center mx-auto md:mx-0">
         <div className="flex justify-between items-center gap-2 mr-4">
@@ -81,7 +117,7 @@ function Navbar() {
         )}
         {search.length > 0 && (
           <div
-            className="suggestions_div  bg-white  rounded-xl mt-2  absolute  w-[40vw]"
+            className="suggestions_div  bg-white  rounded-xl mt-5  absolute  w-[40vw]"
             onClick={() => setIsalbumChange((prev) => !prev)}
           >
             {searchedSongs?.map((singleSong) => (
@@ -114,12 +150,24 @@ function Navbar() {
         </div>
 
         <div className="flex text-[15px] gap-2 text-gray-600 font-semibold">
-          <Link to={"/login"}>
-            <li className="list-none">Log IN</li>
-          </Link>
-          <Link to={"/signUp"}>
-            <li className="list-none"> Sign Up</li>
-          </Link>
+          {isAuth === true ? (
+            <li
+              className="list-none cursor-pointer"
+              onClick={() => handleLogOut()}
+            >
+              LogOut
+            </li>
+          ) : (
+            <>
+              {" "}
+              <Link to={"/login"}>
+                <li className="list-none">Log IN</li>
+              </Link>
+              <Link to={"/signUp"}>
+                <li className="list-none"> Sign Up</li>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

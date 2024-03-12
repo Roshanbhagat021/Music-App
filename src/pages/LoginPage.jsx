@@ -1,13 +1,17 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import savan from "/savan-logo.png";
 import LoginHeroSection from "../Components/LoginHeroSection";
 import { auth } from "../firebase/config.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
+import { MusicContext } from "../Context/MusicContext.jsx";
 
 const LoginPage = () => {
   const [userDetails, setUserDetails] = useState({ email: "", password: "" });
+  const { isAuth, setIsAuth,saveAuthToLocal } = useContext(MusicContext);
+
+  const navigate=useNavigate()
 
   function handleInputChage(e) {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
@@ -17,9 +21,13 @@ const LoginPage = () => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, userDetails.email, userDetails.password)
       .then((userCredential) => {
-       
         const user = userCredential.user;
-        console.log("user: ", user);
+        console.log('user: ', user);
+        if (user.uid) {
+         
+          saveAuthToLocal({"email":user.email,isAuth:true})
+          navigate("/");
+        }
         setUserDetails({ email: "", password: "" });
         toast.success("LogIn successful ");
       })

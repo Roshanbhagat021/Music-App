@@ -1,14 +1,33 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const MusicContext = createContext();
 
 function ContextProvider({ children }) {
   const [songs, setSongs] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isAlbumChange,setIsalbumChange]=useState(false)
+  const [isAlbumChange, setIsalbumChange] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
   const [searchedSongs, setSearchedSongs] = useState([]);
-  
+  const [isAuth, setIsAuth] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const saveAuthToLocal = (userData) => {
+    setEmail(userData.email);
+    setIsAuth(true);
+    localStorage.setItem("userData", JSON.stringify(userData));
+  };
+
+  useEffect(() => {
+    // Check if userData is available in localStorage
+    const storedUserData = localStorage.getItem("userData") ;
+
+    if (storedUserData) {
+      // If userData is available, parse and set it to component state
+      const { isAuth, email } = JSON.parse(storedUserData) || {isAuth:false,email:""};
+      setEmail(email);
+      setIsAuth(isAuth);
+    }
+  }, [isAuth]);
 
   async function PlayMusic(music, id, name, duration, image, primaryArtists) {
     if (currentSong && currentSong.id === id) {
@@ -80,7 +99,11 @@ function ContextProvider({ children }) {
         setSearchedSongs,
         searchedSongs,
         isAlbumChange,
-        setIsalbumChange
+        setIsalbumChange,
+        isAuth,
+        setIsAuth,
+        saveAuthToLocal,
+        email
       }}
     >
       {children}

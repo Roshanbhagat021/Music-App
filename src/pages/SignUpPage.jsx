@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import LoginHeroSection from "../Components/LoginHeroSection";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 import savan from "/savan-logo.png";
 import { auth } from "../firebase/config.js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
+import { MusicContext } from "../Context/MusicContext.jsx";
 
 const SignUpPage = () => {
-  const [userDetails, setUserDetails] = useState({});
+  const [userDetails, setUserDetails] = useState({ email: "", password: "" });
+  const { isAuth, setIsAuth,saveAuthToLocal } = useContext(MusicContext);
+
+  const navigate=useNavigate()
 
   function handleInputChage(e) {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
@@ -23,8 +27,13 @@ const SignUpPage = () => {
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        console.log("user: ", user);
-        toast.success("SignUp successful ");
+        if (user.uid){
+            setIsAuth(true)
+            saveAuthToLocal({"email":user.email,isAuth:true})
+            navigate("/")
+        }
+        setUserDetails({ email: "", password: "" });
+         toast.success("SignUp successful ");
       })
       .catch((error) => {
         const errorMessage = error.message;

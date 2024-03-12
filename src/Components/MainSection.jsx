@@ -1,35 +1,43 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import AlbumItem from "./AlbumItem";
 import Slider from "./Slider";
+import Loader from "./Loader";
+import { ApiForSongSuggestions1,ApiForSongSuggestions2 } from "../ApiDetails/Api";
 
 const MainSection = () => {
   const [data, setData] = useState([]);
   // console.log("data: ", data);
   const [trending, setTrending] = useState([]);
+  const [isLoading,setIsLoading]=useState(false)
 
   async function getHomePageData() {
+    setIsLoading(true)
     try {
       const res = await axios(
-        `https://saavn.dev/api/songs/jwvjfGwb/suggestions?limit=50`
+        ApiForSongSuggestions1
       );
       const { data } = res.data;
       // console.log("data: ", data);
       setData(data);
       // setTrending(data.trending);
+      setIsLoading(false)
     } catch (error) {
       console.log(error);
+      setIsLoading(false)
     }
   }
   async function getHomePageData2() {
+    setIsLoading(true)
     try {
       const res = await axios(
-        `https://saavn.dev/api/songs/XBtV-pNi/suggestions?limit=30`
+        ApiForSongSuggestions2
       );
       const { data } = res.data;
       setTrending(data);
+      setIsLoading(false)
     } catch (error) {
       console.log(error);
+      setIsLoading(false)
     }
   }
 
@@ -44,11 +52,13 @@ const MainSection = () => {
         <h2 className="text-xl px-5 py-3 font-semibold text-gray-700  w-full  lg:w-[78vw] mx-auto ">
           Trending
         </h2>
-        <Slider data={data} />
+        {isLoading?<Loader/>:   <Slider data={data} />}
+     
         <h2 className="text-xl px-5 py-3 font-semibold text-gray-700  w-full  lg:w-[78vw] mx-auto ">
           Only For You
         </h2>
-        <Slider data={trending} />
+        {isLoading?<Loader/>:    <Slider data={trending} />}
+       
       </section>
     </>
   );
